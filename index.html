@@ -1,8 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
   <title>Private Site</title>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
   <style>
     body {
       font-family: Arial;
@@ -14,45 +19,59 @@
       height: 100vh;
     }
     .box {
-      text-align: center;
       background: #222;
       padding: 30px;
       border-radius: 10px;
+      text-align: center;
+      width: 280px;
     }
     input {
+      width: 100%;
       padding: 10px;
       margin-top: 10px;
-      width: 200px;
     }
     button {
-      padding: 10px 20px;
+      width: 100%;
+      padding: 10px;
       margin-top: 10px;
       cursor: pointer;
     }
   </style>
 </head>
-<body>
 
+<body>
 <div class="box">
-  <h2>🔒 Enter Password</h2>
-  <input type="password" id="pw" placeholder="Password">
-  <br>
-  <button onclick="check()">Enter</button>
+  <h2>🔐 Login</h2>
+  <input type="email" id="email" placeholder="Email">
+  <input type="password" id="password" placeholder="Password">
+
+  <button onclick="login()">Login</button>
+  <button onclick="register()">Register</button>
+
   <p id="msg"></p>
 </div>
 
 <script>
-  const PASSWORD = "1234"; // ဒီမှာ password ပြောင်း
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT",
+  };
 
-  function check() {
-    const pw = document.getElementById("pw").value;
-    if (pw === PASSWORD) {
-      window.location.href = "home.html";
-    } else {
-      document.getElementById("msg").innerText = "❌ Wrong password";
-    }
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+
+  function login() {
+    auth.signInWithEmailAndPassword(email.value, password.value)
+      .then(() => location.href = "home.html")
+      .catch(e => msg.innerText = e.message);
+  }
+
+  function register() {
+    auth.createUserWithEmailAndPassword(email.value, password.value)
+      .then(() => msg.innerText = "✅ Account created")
+      .catch(e => msg.innerText = e.message);
   }
 </script>
-
 </body>
 </html>
