@@ -1,115 +1,104 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Private Site</title>
-
-  <!-- Firebase Compat SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-
+  <meta charset="UTF-8" />
+  <title>Private Login</title>
   <style>
     body {
-      font-family: Arial;
-      background: #111;
+      background: #0f172a;
       color: #fff;
+      font-family: Arial, sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
     }
     .box {
-      background: #222;
-      padding: 30px;
+      width: 320px;
+      padding: 20px;
+      border: 1px solid #22c55e;
       border-radius: 10px;
-      text-align: center;
-      width: 280px;
     }
     input, button {
       width: 100%;
       padding: 10px;
       margin-top: 10px;
+      background: transparent;
+      border: 1px solid #22c55e;
+      color: #22c55e;
+      border-radius: 6px;
     }
     button {
       cursor: pointer;
     }
+    #msg {
+      margin-top: 10px;
+      font-size: 14px;
+    }
   </style>
 </head>
-
 <body>
+
 <div class="box">
-  <h2>🔐 Login</h2>
+  <h2>🔒 Login / Register</h2>
 
-  <input type="email" id="email" placeholder="Email">
-  <input type="password" id="password" placeholder="Password">
+  <input type="email" id="email" placeholder="Email" />
+  <input type="password" id="password" placeholder="Password" />
 
-  <button onclick="login()">Login</button>
-  <button onclick="register()">Register</button>
+  <button type="button" onclick="login()">Login</button>
+  <button type="button" onclick="register()">Register</button>
 
   <p id="msg"></p>
 </div>
 
+<!-- Firebase SDKs (IMPORTANT) -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+
 <script>
-  // ✅ Firebase config (မင်းရဲ့ဟာ)
+  // 🔥 Firebase config (မင်းပေးတဲ့ဟာ)
   const firebaseConfig = {
     apiKey: "AIzaSyAqROFlS4gepP6PCpfTMoZK6994DXQqbsU",
     authDomain: "myweb-756d4.firebaseapp.com",
     projectId: "myweb-756d4",
     storageBucket: "myweb-756d4.firebasestorage.app",
     messagingSenderId: "1047673393390",
-    appId: "1:1047673393390:web:c83dde6a7f53e44c6023ff"
+    appId: "1:1047673393390:web:c83dde6a7f53e44c6023ff",
+    measurementId: "G-KGL5KPE0BE"
   };
 
+  // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
 
-  const email = document.getElementById("email");
-  const password = document.getElementById("password");
-  const msg = document.getElementById("msg");
-
-  function login() {
-    auth.signInWithEmailAndPassword(email.value, password.value)
-      .then(() => {
-        location.href = "home.html";
-      })
-      .catch(e => msg.innerText = e.message);
-  }
-
   function register() {
-    auth.createUserWithEmailAndPassword(email.value, password.value)
-      .then(() => msg.innerText = "✅ Account created")
-      .catch(e => msg.innerText = e.message);
-  }
-</script>
-</body>
-</html>
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyAqROFlS4gepP6PCpfTMoZK6994DXQqbsU",
-    authDomain: "myweb-756d4.firebaseapp.com",
-    projectId: "myweb-756d4",
-    storageBucket: "myweb-756d4.appspot.com",
-    messagingSenderId: "1047673393390",
-    appId: "1:1047673393390:web:c83dde6a7f53e44c6023ff"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-
-  window.login = function () {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
+    const msg = document.getElementById("msg");
 
-    signInWithEmailAndPassword(auth, email, password)
+    auth.createUserWithEmailAndPassword(email, password)
       .then(() => {
-        alert("Login success ✅");
-        window.location.href = "home.html";
+        msg.innerText = "✅ Register success";
       })
-      .catch((error) => {
-        alert(error.message);
+      .catch(error => {
+        msg.innerText = error.message;
       });
-  };
+  }
+
+  function login() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const msg = document.getElementById("msg");
+
+    auth.signInWithEmailAndPassword(email, password)
+      .then(() => {
+        window.location.href = "home.html"; // login ပြီးရင်သွားမယ့် page
+      })
+      .catch(error => {
+        msg.innerText = error.message;
+      });
+  }
 </script>
+
+</body>
+</html>
