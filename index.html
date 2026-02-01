@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Private Site</title>
 
-  <!-- Firebase -->
+  <!-- Firebase Compat SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
@@ -25,15 +25,12 @@
       text-align: center;
       width: 280px;
     }
-    input {
+    input, button {
       width: 100%;
       padding: 10px;
       margin-top: 10px;
     }
     button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
       cursor: pointer;
     }
   </style>
@@ -42,6 +39,7 @@
 <body>
 <div class="box">
   <h2>🔐 Login</h2>
+
   <input type="email" id="email" placeholder="Email">
   <input type="password" id="password" placeholder="Password">
 
@@ -52,18 +50,28 @@
 </div>
 
 <script>
+  // ✅ Firebase config (မင်းရဲ့ဟာ)
   const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-    projectId: "YOUR_PROJECT",
+    apiKey: "AIzaSyAqROFlS4gepP6PCpfTMoZK6994DXQqbsU",
+    authDomain: "myweb-756d4.firebaseapp.com",
+    projectId: "myweb-756d4",
+    storageBucket: "myweb-756d4.firebasestorage.app",
+    messagingSenderId: "1047673393390",
+    appId: "1:1047673393390:web:c83dde6a7f53e44c6023ff"
   };
 
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
 
+  const email = document.getElementById("email");
+  const password = document.getElementById("password");
+  const msg = document.getElementById("msg");
+
   function login() {
     auth.signInWithEmailAndPassword(email.value, password.value)
-      .then(() => location.href = "home.html")
+      .then(() => {
+        location.href = "home.html";
+      })
       .catch(e => msg.innerText = e.message);
   }
 
