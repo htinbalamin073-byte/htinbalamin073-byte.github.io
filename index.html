@@ -83,3 +83,33 @@
 </script>
 </body>
 </html>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAqROFlS4gepP6PCpfTMoZK6994DXQqbsU",
+    authDomain: "myweb-756d4.firebaseapp.com",
+    projectId: "myweb-756d4",
+    storageBucket: "myweb-756d4.appspot.com",
+    messagingSenderId: "1047673393390",
+    appId: "1:1047673393390:web:c83dde6a7f53e44c6023ff"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  window.login = function () {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        alert("Login success ✅");
+        window.location.href = "home.html";
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
+</script>
